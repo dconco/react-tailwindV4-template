@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# React + Vite + Tailwind v4 + Styled Components Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, lightweight starter template using React + Vite with the latest Tailwind CSS v4 & Styled Components configured — ready for rapid UI development with zero setup friction.
 
-Currently, two official plugins are available:
+## What's included
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + TypeScript (Vite powered)
+- Tailwind CSS v4 (high-performance engine, CSS-first config)
+- Tailwind PostCSS integration via `@tailwindcss/postcss`
+- Styled Components for scoped component styling
+- ESLint and TypeScript dev tooling
 
-## React Compiler
+## Quick start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Clone the project and install dependencies (this repo uses pnpm):
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the dev server:
+
+```bash
+pnpm dev
+```
+
+Build for production:
+
+```bash
+pnpm build
+```
+
+Preview the production build:
+
+```bash
+pnpm preview
+```
+
+## Tailwind v4 notes
+
+Tailwind v4 moved the PostCSS plugin into a separate package. This template already uses the PostCSS plugin package `@tailwindcss/postcss` in `postcss.config.js`. If you update Tailwind or change PostCSS config, make sure to:
+
+1. Install or update the PostCSS plugin package:
+
+```bash
+pnpm add -D tailwindcss @tailwindcss/postcss
+```
+
+2. Keep `postcss.config.js` pointing to the PostCSS plugin package instead of `tailwindcss` directly:
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+export default {
+  plugins: {
+    "@tailwindcss/postcss": {},
+    autoprefixer: {},
   },
-])
+}
 ```
+
+Alternatively, for Vite you can use the first-party Vite plugin for even better performance:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwind from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwind()],
+})
+```
+
+## Styling approach
+
+- Use Tailwind utilities for fast layout and spacing.
+- Use Styled Components for component-scoped CSS when you need JavaScript-driven styles or more complex stateful styling patterns.
+
+Example: `src/App.tsx` uses Tailwind for layout, and `src/styles/ButtonStyle.tsx` demonstrates a small styled button.
+
+## Notes & Tips
+
+- If you see PostCSS errors about using `tailwindcss` directly, install `@tailwindcss/postcss` and update `postcss.config.js` as shown above.
+- This template uses `pnpm` and ships a `pnpm-lock.yaml`. You can use `npm` or `yarn`, but lockfile behavior will differ.
+
+## License
+
+MIT
